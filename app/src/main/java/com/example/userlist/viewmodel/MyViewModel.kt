@@ -1,7 +1,6 @@
 package com.example.userlist.viewmodel
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -89,15 +88,6 @@ class MyViewModel @Inject constructor(private var myRepository : MyRepository, @
                     mobile = "",
                     gender = ""
                 ) }
-                viewModelScope.launch {
-                    Log.d("aisfdgciud9","called - On")
-
-                    myRepository.getUserList().collect{
-                        Log.d("aisfdgciud5","called - On")
-
-                        state.value.userList = it
-                    }
-                }
 
             }
             is UserEvent.setEmail -> {
