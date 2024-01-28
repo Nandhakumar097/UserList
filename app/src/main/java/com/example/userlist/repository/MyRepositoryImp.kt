@@ -1,38 +1,35 @@
 package com.example.userlist.repository
 
 import android.content.Context
-import com.example.userlist.dao.UserDao
-import com.example.userlist.model.NetworkConnectivity
+import android.widget.Toast
+import androidx.room.withTransaction
+import com.example.userlist.UserDatabase
 import com.example.userlist.model.UserData
 import com.example.userlist.remote.MyApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MyRepositoryImp  @Inject constructor(private val myApi: MyApi, private val dao: UserDao,private val context: Context ) : MyRepository{
+class MyRepositoryImp  @Inject constructor(private val myApi: MyApi, private val userDatabase: UserDatabase,private val context: Context ) : MyRepository{
 
     override suspend fun getUserList(): Flow<List<UserData>> {
-        return if (NetworkConnectivity().isOnline(context = context)){
-            flow {
-                try {
-                    myApi.getList().body()?.let { emit(it) }
-                }catch (ex : Exception){
-                    dao.getAllUserData()
-                }
-            }
-        }else {
-            dao.getAllUserData()
-        }
+        return userDatabase.userDao.getAllUserData()
     }
 
-    override suspend fun addUser(userData: UserData) {
-        GlobalScope.launch(Dispatchers.IO) {
-            dao.upSertUser(userData)
+    @OptIn(DelicateCoroutinesApi::class)
+    override suspend fun addUser(userData: UserData){
+        userDatabase.withTransaction {
+            try {
+                val response =  myApi.addUser(userData)
+                if (response.isSuccessful){
+                    userDatabase.userDao.upSertUser(userData)
+                }else {
+                    Toast.makeText(context, "Failed to Add User", Toast.LENGTH_SHORT).show()
+                }
+            }catch (ex : Exception){
+                Toast.makeText(context, "Failed to Add User", Toast.LENGTH_SHORT).show()
+            }
         }
-        myApi.addUser(userData)
     }
 
 
