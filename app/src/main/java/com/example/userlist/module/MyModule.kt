@@ -23,7 +23,7 @@ object MyModule {
     @Provides
     fun provideMyApi() : MyApi{
         return Retrofit.Builder()
-            .baseUrl("https://crudcrud.com/api/6aef67e9edef40908ef3efa3b4b94893/")
+            .baseUrl("https://crudcrud.com/api/57660137e39644889066017b054093a5/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(MyApi::class.java)
@@ -32,7 +32,7 @@ object MyModule {
     @Singleton
     @Provides
     fun provideMyRepository(myApi: MyApi, userDatabase: UserDatabase,@ApplicationContext appContext: Context) : MyRepository{
-        return MyRepositoryImp(myApi,userDatabase.userDao,appContext)
+        return MyRepositoryImp(myApi,userDatabase,appContext)
     }
 
     @Singleton
@@ -41,7 +41,7 @@ object MyModule {
         return Room.databaseBuilder(
             context,
             UserDatabase::class.java,
-            "userdata.db"
+            "userdatabase.db"
         ).build()
     }
 

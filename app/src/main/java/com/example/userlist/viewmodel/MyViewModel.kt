@@ -79,7 +79,11 @@ class MyViewModel @Inject constructor(private var myRepository : MyRepository, @
                     gender = gender
                 )
                 viewModelScope.launch {
-                    myRepository.addUser(userData)
+                    try {
+                        myRepository.addUser(userData)
+                    }catch (ex : Exception){
+                        println(ex)
+                    }
                 }
                 _state.update { it.copy(
                     isAddingUser = false,
@@ -88,7 +92,8 @@ class MyViewModel @Inject constructor(private var myRepository : MyRepository, @
                     mobile = "",
                     gender = ""
                 ) }
-
+                _sortType.update { SortType.GENDER }
+                Toast.makeText(context, "User Added Successfully", Toast.LENGTH_SHORT).show()
             }
             is UserEvent.setEmail -> {
                 _state.update { it.copy(

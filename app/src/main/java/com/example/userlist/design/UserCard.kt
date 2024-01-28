@@ -71,7 +71,8 @@ fun UserCard(
             event(UserEvent.hideDialog)
         },
         title = { Text(text = "Add User",
-            textAlign = TextAlign.Center) },
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.primary) },
         text = {
             Column(modifier = modifier
                     .padding(10.dp),
@@ -81,15 +82,18 @@ fun UserCard(
                 OutlinedTextField(
                     value = state.userName,
                     singleLine = true,
+
                     onValueChange = { event(UserEvent.setUserName(it)) },
-                    label = { Text("UserName") }
+                    label = { Text("UserName",
+                        color = MaterialTheme.colorScheme.secondary) }
                 )
                 Spacer(modifier = modifier.height(10.dp))
                 OutlinedTextField(
                     value = state.email,
                     singleLine = true,
                     onValueChange = { event(UserEvent.setEmail(it)) },
-                    label = { Text("Email Id") }
+                    label = { Text("Email Id",
+                        color = MaterialTheme.colorScheme.secondary) }
                 )
                 Column {
                     Spacer(modifier = modifier.height(10.dp))
@@ -104,7 +108,8 @@ fun UserCard(
                         onValueChange = {
                             event(UserEvent.setMobile(it.take(10)))
                         },
-                        label = { Text("Mobile") },
+                        label = { Text("Mobile",
+                            color = MaterialTheme.colorScheme.secondary) },
                     )
                 }
                 Spacer(modifier = modifier.height(10.dp))
@@ -118,7 +123,8 @@ fun UserCard(
                             .onGloballyPositioned { coordinates ->
                                 textfieldSize = coordinates.size.toSize()
                             },
-                        label = {Text("Gender")},
+                        label = {Text("Gender",
+                            color = MaterialTheme.colorScheme.secondary)},
                         trailingIcon = {
                             Icon(icon,"contentDescription",
                                 Modifier.clickable { expanded = !expanded })
@@ -132,7 +138,8 @@ fun UserCard(
                     ) {
                         suggestions.forEach { label ->
                             DropdownMenuItem(
-                                text = { Text(text = label) },
+                                text = { Text(text = label,
+                                    color = MaterialTheme.colorScheme.secondary) },
                                 onClick = {
                                    event(UserEvent.setGender(label))
                                     expanded = false
@@ -194,12 +201,14 @@ fun UserList(userData: UserData) {
         ) {
             Text(
                 text = userData.name,
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.primary
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "Email: ${userData.email}",
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.secondary
             )
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -207,12 +216,14 @@ fun UserList(userData: UserData) {
                 Text(
                     text = "Gender: ${userData.gender}",
                     style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    color = MaterialTheme.colorScheme.secondary
                 )
                 Text(
                     modifier = Modifier,
                     text = "Mobile: ${userData.mobile}",
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.secondary
                 )
             }
         }

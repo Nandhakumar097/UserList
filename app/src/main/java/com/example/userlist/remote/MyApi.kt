@@ -9,10 +9,10 @@ import retrofit2.http.POST
 
 interface MyApi {
 
-    @GET("userss")
+    @GET("user")
     suspend fun getList() : Response<List<UserData>>
 
-    @POST("userss")
-    suspend fun addUser(@Body userData: UserData)
+    @POST("user")
+    suspend fun addUser(@Body userData: UserData) : Response<UserData>
 
 }

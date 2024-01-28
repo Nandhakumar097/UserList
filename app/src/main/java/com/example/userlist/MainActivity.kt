@@ -67,7 +67,8 @@ class MainActivity : ComponentActivity() {
                         topBar = {
                             TopAppBar(
                                 title = {
-                                    Text(text = "UserList")
+                                    Text(text = "UserList",
+                                        color = MaterialTheme.colorScheme.primary)
                                 },
                                 colors = TopAppBarDefaults.smallTopAppBarColors(
                                     containerColor = MaterialTheme.colorScheme.surfaceVariant,
@@ -76,7 +77,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     ) { value ->
-                        if (state.userList.size > 1) {
+                        if (state.userList.isNotEmpty()) {
                             LazyColumn(
                                 contentPadding = value,
                                 modifier = Modifier
